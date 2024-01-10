@@ -35,18 +35,25 @@ class characteradapter(private var characterdata: ArrayList<characterdata>,priva
         }
         holder.binding.charactername.text=characterdata[position].name
 
-        Picasso.get().load(characterdata[position].image).memoryPolicy(MemoryPolicy.NO_CACHE,MemoryPolicy.NO_STORE)
-            .networkPolicy(NetworkPolicy.NO_CACHE,NetworkPolicy.NO_STORE).into(holder.binding.characterimage)
-        if (characterdata[position].gender=="Male"){
-            Picasso.get().load(R.drawable.male).memoryPolicy(MemoryPolicy.NO_CACHE,MemoryPolicy.NO_STORE)
-                .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE).into(holder.binding.genderimage)
-        }else if (characterdata[position].gender=="Female"){
-            Picasso.get().load(R.drawable.female).memoryPolicy(MemoryPolicy.NO_CACHE,MemoryPolicy.NO_STORE)
-                .networkPolicy(NetworkPolicy.NO_CACHE,NetworkPolicy.NO_STORE).into(holder.binding.genderimage)
-        }else{
-            Picasso.get().load(R.drawable.unknown).memoryPolicy(MemoryPolicy.NO_CACHE,MemoryPolicy.NO_STORE)
-                .networkPolicy(NetworkPolicy.NO_CACHE,NetworkPolicy.NO_STORE).into(holder.binding.genderimage)
+        val characterImageResource = when (characterdata[position].gender) {
+            "Male" -> R.drawable.male
+            "Female" -> R.drawable.female
+            else -> R.drawable.unknown
         }
+        Picasso.get().load(characterdata[position].image)
+            .resize(140, 140)
+            .centerCrop()
+            .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+            .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)
+            .into(holder.binding.characterimage)
+
+        Picasso.get().load(characterImageResource)
+            .resize(100, 120)
+
+            .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+            .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)
+            .into(holder.binding.genderimage)
+
     }
 
 }
